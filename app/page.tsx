@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main className="mx-auto max-w-3xl p-8">
       <h1 className="text-3xl font-bold">ShopSmart</h1>
-      <p className="mb-6 text-gray-600">Deployed on Render by Mut Tut</p>
+      <p className="mb-6 text-gray-600">Live on Vercel and Render</p>
       <div className="grid gap-4 sm:grid-cols-2">
         {products.map((p) => (
           <div key={p.id} className="rounded-lg border p-4">
