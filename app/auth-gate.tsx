@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 
@@ -23,7 +24,12 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <div className="flex justify-end p-4 text-sm">
+      <nav className="flex items-center justify-between border-b p-4 text-sm">
+        <div className="flex gap-4">
+          <Link href="/register" className="underline">Register</Link>
+          <Link href="/distribute" className="underline">Distribute</Link>
+          <Link href="/dashboard" className="underline">Dashboard</Link>
+        </div>
         <button
           className="underline"
           onClick={async () => {
@@ -33,7 +39,7 @@ export default function AuthGate({ children }: { children: React.ReactNode }) {
         >
           Log out
         </button>
-      </div>
+      </nav>
       {children}
     </>
   );
