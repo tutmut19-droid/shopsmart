@@ -43,6 +43,27 @@ export default function Distribute() {
   }, []);
 
   async function give(p: Person) {
+    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    const { data: previous } = await supabase
+      .from("distributions")
+      .select("given_at")
+      .eq("beneficiary_id", p.id)
+      .eq("item", item)
+      .gte("given_at", since)
+      .order("given_at", { ascending: false })
+      .limit(1);
+
+    if (previous && previous.length > 0) {
+      const when = new Date(previous[0].given_at).toLocaleDateString();
+      const ok = window.confirm(
+        `${p.name} already received ${item} on ${when} (within the last 30 days). Record it again?`
+      );
+      if (!ok) {
+        setMessage("Cancelled: duplicate not recorded.");
+        return;
+      }
+    }
+
     const { error } = await supabase
       .from("distributions")
       .insert({ beneficiary_id: p.id, item, quantity: Number(quantity) });
