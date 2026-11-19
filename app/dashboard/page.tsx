@@ -13,6 +13,7 @@ type Dist = {
   item: string;
   quantity: number;
   given_at: string;
+  recorded_by: string | null;
   beneficiaries: { name: string; ref: string; location: string } | null;
 };
 
@@ -26,7 +27,7 @@ export default function Dashboard() {
       setPeople((p.data ?? []) as Person[]);
       const d = await supabase
         .from("distributions")
-        .select("id,item,quantity,given_at,beneficiaries(name,ref,location)")
+        .select("id,item,quantity,given_at,recorded_by,beneficiaries(name,ref,location)")
         .order("given_at", { ascending: false });
       setDists((d.data ?? []) as unknown as Dist[]);
     }
@@ -57,7 +58,7 @@ export default function Dashboard() {
       if (/^[=+\-@]/.test(s)) s = "'" + s;
       return '"' + s.replace(/"/g, '""') + '"';
     };
-    const header = ["Name", "ID", "Location", "Item", "Quantity", "Date"];
+    const header = ["Name", "ID", "Location", "Item", "Quantity", "Date", "Recorded by"];
     const lines = dists.map((d) =>
       [
         d.beneficiaries?.name ?? "",
@@ -66,6 +67,7 @@ export default function Dashboard() {
         d.item,
         d.quantity,
         new Date(d.given_at).toLocaleString(),
+        d.recorded_by ?? "",
       ]
         .map(esc)
         .join(",")

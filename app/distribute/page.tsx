@@ -13,8 +13,10 @@ type Row = {
   item: string;
   quantity: number;
   given_at: string;
+  recorded_by: string | null;
   beneficiaries: { name: string; ref: string } | null;
 };
+
 
 export default function Distribute() {
   const [people, setPeople] = useState<Person[]>([]);
@@ -32,7 +34,7 @@ export default function Distribute() {
     setPeople((p.data ?? []) as Person[]);
     const d = await supabase
       .from("distributions")
-      .select("id,item,quantity,given_at,beneficiaries(name,ref)")
+      .select("id,item,quantity,given_at,recorded_by,beneficiaries(name,ref)")
       .order("given_at", { ascending: false })
       .limit(20);
     setRows((d.data ?? []) as unknown as Row[]);
@@ -121,7 +123,7 @@ export default function Distribute() {
       <ul className="mt-2 grid gap-2">
         {rows.map((r) => (
           <li key={r.id} className="rounded border p-3">
-            {r.beneficiaries?.name} · {r.item} x{r.quantity} · {new Date(r.given_at).toLocaleString()}
+                        {r.beneficiaries?.name} · {r.item} x{r.quantity} · {new Date(r.given_at).toLocaleString()} · by {r.recorded_by ?? "unknown"}
           </li>
         ))}
       </ul>

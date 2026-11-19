@@ -7,7 +7,14 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 );
 
-type Person = { id: number; name: string; household: number; location: string; ref: string };
+type Person = {
+  id: number;
+  name: string;
+  household: number;
+  location: string;
+  ref: string;
+  recorded_by: string | null;
+};
 
 export default function Register() {
   const [people, setPeople] = useState<Person[]>([]);
@@ -22,7 +29,7 @@ export default function Register() {
       .from("beneficiaries")
       .select("*")
       .order("created_at", { ascending: false });
-    setPeople(data ?? []);
+    setPeople((data ?? []) as Person[]);
   }
 
   useEffect(() => {
@@ -57,7 +64,7 @@ export default function Register() {
       <ul className="mt-2 grid gap-2">
         {people.map((p) => (
           <li key={p.id} className="rounded border p-3">
-            {p.name} · {p.location} · Household: {p.household} · Ref: {p.ref}
+            {p.name} · {p.location} · Household: {p.household} · Ref: {p.ref} · By: {p.recorded_by ?? "unknown"}
           </li>
         ))}
       </ul>
