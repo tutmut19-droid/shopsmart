@@ -55,6 +55,7 @@ export default function Register() {
     let queue = readQueue();
     if (queue.length === 0) return;
     syncing.current = true;
+        await supabase.auth.getSession(); // refresh the login if it expired
     let saved = 0;
     let duplicates = 0;
     for (const item of [...queue]) {
