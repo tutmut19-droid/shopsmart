@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f7f2;
+  --background: #e3efdf;
   --foreground: #1b2a22;
   color-scheme: light;
 }
@@ -22,4 +22,39 @@ body {
 input,
 select {
   background: #ffffff;
+}
+body::before {
+  content: "MSAADATRACK";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 38%;
+  text-align: center;
+  font-size: clamp(2.5rem, 13vw, 8rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #166534;
+  opacity: 0.09;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
+}
+
+body::after {
+  content: "Every person counted. Every distribution recorded.";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 58%;
+  padding: 0 1rem;
+  text-align: center;
+  font-size: clamp(0.9rem, 3.2vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #166534;
+  opacity: 0.12;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
 }
